@@ -1,0 +1,9 @@
+.mainContainer {
+    position: absolute;
+    bottom: 0px;
+    height: 100px;
+    background-color: #29716049;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}

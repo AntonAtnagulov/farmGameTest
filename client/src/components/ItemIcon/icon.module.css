@@ -1,0 +1,40 @@
+.itemCard {
+    height: 80px;
+    width: 80px;
+    background-color: #5FC37B;
+    border-radius: 5px;
+    position: relative;
+}
+
+.itemIcon {
+    width: 60px;
+    height: 60px;
+    margin: 10px;
+}
+
+.budgeCount {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    bottom: 5px;
+    right: -12px;
+    background-color: rgba(235, 59, 28, 0.895);
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.budgeSell {
+    position: absolute;
+    top: 0px;
+    right: -15px;
+    background-color: red;
+    border-radius: 4px;
+}
+
+.budgeText {
+    color: #ffffff;
+    user-select: none;
+    padding: 10px;
+}
