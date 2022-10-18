@@ -2,7 +2,6 @@ import React from 'react';
 import style from './sellCard.module.css'
 
 export default function SellCard({type, name, setShowModal}) {
-
     const modalCloseHandler = () => {
         setShowModal(false)
     }

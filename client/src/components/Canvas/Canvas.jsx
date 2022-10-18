@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import style from './canvas.module.css';
 import * as THREE from 'three';
-import Game from '../../JavaScript/Game';
+import Game from '../../JavaScript/Classes/Game';
 import { useState } from 'react';
 import keyframes from '../../JavaScript/Functions/keyframes';
 import { DragControls } from 'three/examples/jsm/controls/DragControls';
@@ -11,9 +11,9 @@ import {clickAnimal, clickProduct, clickPlant} from '../../JavaScript/Functions/
 
 export default function Canvas() {
     const mountRef = useRef(null);
+    const game = new Game();
     const [inventory, setInventory] = useState({ wheats: 0, eggs: 0, milk: 0 });
     const [showModal, setShowModal] = useState(false);
-    const game = new Game();
     const mouse = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
     let dragStartTile;
@@ -26,7 +26,7 @@ export default function Canvas() {
         alpha: true,
         antialias: true,
     });
-
+    
     let plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
     let intersects = new THREE.Vector3();
     
@@ -82,7 +82,6 @@ export default function Canvas() {
                     });
                 });
                 if (targetTile.empty === true) {
-                    console.log(targetTile)
                     e.object.position.set(...intersects[0].object.position);
                     e.object.position.z += 15;
                 } else {
@@ -104,8 +103,8 @@ export default function Canvas() {
 
             if (intersects) {
                 const targetGroupName = intersects[0].object.parent.name;
-                clickAnimal(game, targetGroupName, 'cow', setInventory);
-                clickAnimal(game, targetGroupName, 'chicken', setInventory);
+                clickAnimal(game, targetGroupName, 'cow', setInventory, showModal);
+                clickAnimal(game, targetGroupName, 'chicken', setInventory, showModal);
                 clickProduct(game, targetGroupName, 'milk', intersects, setInventory);
                 clickProduct(game, targetGroupName, 'eggs', intersects, setInventory);
                 clickPlant(game, targetGroupName, 'wheat', modelsGroup, setInventory)
@@ -140,18 +139,17 @@ export default function Canvas() {
             requestAnimationFrame(animate);
             render();
         }
-
+        
         let clock = new THREE.Clock();
-
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
-
+        
         function render() {
             renderer.render(game.scene, game.camera);
             const delta = clock.getDelta();
-
+            
             if (mixers.length) {
                 for (let i = 0; i < mixers.length; i++) {
                     mixers[i].mixer.update(delta);
@@ -159,7 +157,8 @@ export default function Canvas() {
             }
         }
         animate();
-    }, []);
+    }, [mountRef]);
+    
 
     return (
         <div>
@@ -169,7 +168,7 @@ export default function Canvas() {
                 style={{ width: window.innerWidth }}
             >
                 <ItemIcon showModalHandler={showModalHandler} inventory={inventory.wheats} imgUrl={'./wheat.png'} />
-                <ItemIcon showModalHandler={showModalHandler} inventory={inventory.eggs} imgUrl={'./egg.png'} />
+                <ItemIcon showModalHandler={showModalHandler} inventory={inventory.eggs} imgUrl={'./egg.png'} /> 
                 <ItemIcon showModalHandler={showModalHandler} inventory={inventory.milk} imgUrl={'./milk.png'} />
             </div>
             {showModal && <SellModal inventory={inventory} setShowModal={setShowModal}/>}

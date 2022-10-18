@@ -1,12 +1,12 @@
 import * as THREE from 'three';
-import Camera from './Camera';
-import Ground from './Classes/Ground';
-import DirectionalLight from './DirLight';
-import BackLight from './BackLight';
-import Wheat from './Classes/Wheat';
-import Chicken from './Classes/Chicken';
-import Cow from './Classes/Cow'
-import randomInteger from './Functions/randomInteger';
+import Camera from '../Camera';
+import Ground from './Ground';
+import DirectionalLight from '../DirLight';
+import BackLight from '../BackLight';
+import Wheat from './Wheat';
+import Chicken from './Chicken';
+import Cow from './Cow'
+import randomInteger from '../Functions/randomInteger';
 import { v4 as uuidv4 } from 'uuid';
 const hungryMaterial = new THREE.MeshPhongMaterial({ color: 0xB0B0EE });
 const wellFedMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
@@ -51,7 +51,6 @@ export default class Game {
             if (checkedChickenPos) {
                 this.chickens.push(chicken);
                 cickenTargetPos.empty = false
-                console.log(cickenTargetPos)
                 chicken.model.position.set(...checkedChickenPos.position);
                 chicken.model.position.z -= 2
             }
@@ -69,7 +68,6 @@ export default class Game {
         
         const cowTargetPos = this.getRandomPosition()
         const cowCheckedPos = this.checkPosition(cowTargetPos)
-        console.log(cowCheckedPos)
         const cow = new Cow(`cow${uuidv4()}`, hungryMaterial, wellFedMaterial)
         this.cows.push(cow)
         
@@ -88,7 +86,7 @@ export default class Game {
         );
     }
 
-    addWheat(position) {
+    addWheat() {
         const obj = new Wheat(`wheat${uuidv4()}`);
         this.wheats.push(obj);
         this.models.add(obj.model);
@@ -109,7 +107,6 @@ export default class Game {
     }
 
     findAnimalClass(name) {
-        console.log('animalClass',this.chickens.filter((el) => el.name === name) )
         return name.includes('chicken') ? this.chickens.filter((el) => el.name === name) 
         : this.cows.filter((el) => el.name === name)
     }

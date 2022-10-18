@@ -2,11 +2,11 @@ import * as THREE from 'three';
 
 const clickAnimal = (game, targetGroupName, animalName, callback) => {
     if (targetGroupName.includes(animalName) && game.inventory.wheats > 0) {
-        console.log('clickAnimal')
         const animal = game.findAnimalClass(targetGroupName);
         if (animal[0].hungry) {
             animal[0].feedAnimal();
             if (typeof callback === 'function') {
+                game.inventory.wheats -= 1
                 callback((prev) => ({
                     ...prev,
                     wheats: prev.wheats - 1,
@@ -18,7 +18,6 @@ const clickAnimal = (game, targetGroupName, animalName, callback) => {
 
 const clickProduct = (game, targetGroupName, productName, intersects, callback) => {
     if (targetGroupName.includes(productName)) {
-        console.log('clickProduct')
         const animal = game.findAnimalClass(
             intersects[0].object.parent.parent.name
         );
@@ -82,7 +81,6 @@ const onDrag = (e, game, mouse, intersects, raycaster) => {
     let plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
     raycaster.setFromCamera(mouse, game.camera);
     raycaster.ray.intersectPlane(plane, intersects);
-    console.log(intersects)
     e.object.position.set(
         intersects.x,
         intersects.y,
@@ -109,7 +107,6 @@ const onDragEnd = (e, game, raycaster, dragStartTile) => {
             });
         });
         if (targetTile.empty === true) {
-            console.log(targetTile)
             e.object.position.set(...intersects[0].object.position);
             e.object.position.z += 15;
         } else {
