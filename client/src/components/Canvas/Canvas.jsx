@@ -6,16 +6,21 @@ import { useState } from 'react';
 import keyframes from '../../JavaScript/Functions/keyframes';
 import { DragControls } from 'three/examples/jsm/controls/DragControls';
 import ItemIcon from '../ItemIcon/ItemIcon';
-// import SellModal from '../SellModal/SellModal';
+import SellModal from '../SellModal/SellModal';
 import {clickAnimal, clickProduct, clickPlant} from '../../JavaScript/Functions/functions'
 
 export default function Canvas() {
     const mountRef = useRef(null);
     const [inventory, setInventory] = useState({ wheats: 0, eggs: 0, milk: 0 });
+    const [showModal, setShowModal] = useState(false);
     const game = new Game();
     const mouse = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
     let dragStartTile;
+    
+    const showModalHandler = () => {
+        setShowModal((prev) => !prev);
+    };
 
     const renderer = new THREE.WebGLRenderer({
         alpha: true,
@@ -24,7 +29,7 @@ export default function Canvas() {
 
     let plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
     let intersects = new THREE.Vector3();
-
+    
     useEffect(() => {
         game.initScene();
         let controls;
@@ -120,8 +125,8 @@ export default function Canvas() {
             }, i * 1000);
         }
 
-        window.addEventListener('click', onMouseClick);
-        window.addEventListener('mousemove', onMove);
+        document.addEventListener('click', onMouseClick);
+        document.addEventListener('mousemove', onMove);
 
         setInterval(() => {
             game.addWheat();
@@ -163,11 +168,11 @@ export default function Canvas() {
                 className={style.mainContainer}
                 style={{ width: window.innerWidth }}
             >
-                <ItemIcon inventory={inventory.wheats} imgUrl={'./wheat.png'} />
-                <ItemIcon inventory={inventory.eggs} imgUrl={'./egg.png'} />
-                <ItemIcon inventory={inventory.milk} imgUrl={'./milk.png'} />
+                <ItemIcon showModalHandler={showModalHandler} inventory={inventory.wheats} imgUrl={'./wheat.png'} />
+                <ItemIcon showModalHandler={showModalHandler} inventory={inventory.eggs} imgUrl={'./egg.png'} />
+                <ItemIcon showModalHandler={showModalHandler} inventory={inventory.milk} imgUrl={'./milk.png'} />
             </div>
-            {/* <SellModal/> */}
+            {showModal && <SellModal inventory={inventory} setShowModal={setShowModal}/>}
         </div>
     );
 }

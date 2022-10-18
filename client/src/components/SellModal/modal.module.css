@@ -1,9 +1,9 @@
 .modalContainer {
     position: absolute;
-    width: 300px;
+    width: 400px;
     height: 200px;
     background-color: #174e41;
-    top: 50%;
+    top: 78%;
     left: 50%;
     transform: translateX(-50%) translateY(-60%);
     border-radius: 16px;

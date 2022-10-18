@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './icon.module.css';
 
-export default function ItemIcon({inventory, imgUrl}) {
+export default function ItemIcon({inventory, imgUrl, showModalHandler}) {
     return (
         <div className={style.itemCard}>
             <img src={imgUrl} className={style.itemIcon} />
@@ -9,7 +9,7 @@ export default function ItemIcon({inventory, imgUrl}) {
                 <span className={style.budgeText}>{inventory}</span>
             </div>
             <div className={style.budgeSell}>
-                <span className={style.budgeText}>sell</span>
+                <span onClick={showModalHandler} className={style.budgeText}>sell</span>
             </div>
         </div>
     );
