@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.e21e1aec.css",
-    "main.js": "/static/js/main.caaa794d.js",
-    "static/js/787.e058ae7c.chunk.js": "/static/js/787.e058ae7c.chunk.js",
-    "index.html": "/index.html",
-    "main.e21e1aec.css.map": "/static/css/main.e21e1aec.css.map",
-    "main.caaa794d.js.map": "/static/js/main.caaa794d.js.map",
-    "787.e058ae7c.chunk.js.map": "/static/js/787.e058ae7c.chunk.js.map"
+    "main.css": "/farmGameTest/static/css/main.e21e1aec.css",
+    "main.js": "/farmGameTest/static/js/main.c026d290.js",
+    "static/js/787.e058ae7c.chunk.js": "/farmGameTest/static/js/787.e058ae7c.chunk.js",
+    "index.html": "/farmGameTest/index.html",
+    "main.e21e1aec.css.map": "/farmGameTest/static/css/main.e21e1aec.css.map",
+    "main.c026d290.js.map": "/farmGameTest/static/js/main.c026d290.js.map",
+    "787.e058ae7c.chunk.js.map": "/farmGameTest/static/js/787.e058ae7c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e21e1aec.css",
-    "static/js/main.caaa794d.js"
+    "static/js/main.c026d290.js"
   ]
 }
