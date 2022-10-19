@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 const clickAnimal = (game, targetGroupName, animalName, callback) => {
-    if (targetGroupName.includes(animalName) && game.inventory.wheats > 0) {
+    if (targetGroupName?.includes(animalName) && game.inventory.wheats > 0) {
         const animal = game.findAnimalClass(targetGroupName);
         if (animal[0].hungry) {
             animal[0].feedAnimal();
@@ -17,12 +17,12 @@ const clickAnimal = (game, targetGroupName, animalName, callback) => {
 };
 
 const clickProduct = (game, targetGroupName, productName, intersects, callback) => {
-    if (targetGroupName.includes(productName)) {
+    if (targetGroupName?.includes(productName)) {
         const animal = game.findAnimalClass(
-            intersects[0].object.parent.parent.name
+            intersects[0]?.object.parent.parent.name
         );
         intersects[0].object.parent.parent.remove(
-            intersects[0].object.parent
+            intersects[0]?.object.parent
         );
         animal[0].product = false;
         game.addItem(productName);
@@ -33,7 +33,7 @@ const clickProduct = (game, targetGroupName, productName, intersects, callback) 
 };
 
 const clickPlant = (game, targetGroupName, plantName, modelsGroup, callback) => {
-    if (targetGroupName.includes('wheat')) {
+    if (targetGroupName?.includes('wheat')) {
         const findedWheat = game.wheats.filter(
             (el) => el.name === targetGroupName
         );
@@ -63,57 +63,19 @@ const clickPlant = (game, targetGroupName, plantName, modelsGroup, callback) => 
     }
 }
 
-const onDragStart = (e, game, dragStartTile) => {
-    game.ground.tilePositions.forEach((el) => {
-        el.forEach((tile) => {
-            if (
-                tile.position.x === e.object.position.x &&
-                tile.position.y === e.object.position.y
-            ) {
-                tile.empty = true;
-                dragStartTile = tile;
-            }
-        });
-    });
-}
-
-const onDrag = (e, game, mouse, intersects, raycaster) => {
-    let plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
-    raycaster.setFromCamera(mouse, game.camera);
-    raycaster.ray.intersectPlane(plane, intersects);
-    e.object.position.set(
-        intersects.x,
-        intersects.y,
-        intersects.z + 15
-    );
-}
-
-const onDragEnd = (e, game, raycaster, dragStartTile) => {
-    let intersects = raycaster.intersectObject(
-        game.scene.children[1],
-        true
-    );
-    if (intersects.length) {
-        let targetTile;
-        game.ground.tilePositions.forEach((el) => {
-            el.forEach((tile) => {
-                if (
-                    tile.position.x ===
-                        intersects[0].object.position.x &&
-                    tile.position.y === intersects[0].object.position.y
-                ) {
-                    targetTile = tile;
-                }
-            });
-        });
-        if (targetTile.empty === true) {
-            e.object.position.set(...intersects[0].object.position);
-            e.object.position.z += 15;
-        } else {
-            e.object.position.set(...dragStartTile.position);
-            e.object.position.z += 15;
+const clickOnSellButton = (game, intersects, setInventory, setMoney) => {
+    if (intersects[0]?.object?.parent?.parent?.name === 'sellAll') {
+        const sumWheats = game.inventory.wheats * 2
+        const sumEggs = game.inventory.eggs * 10
+        const sumMilk = game.inventory.milk * 20
+        game.money = game.money + sumWheats + sumEggs + sumMilk;
+        game.inventory = { wheats: 0, eggs: 0, milk: 0 }
+        if (typeof setInventory === 'function') {
+            setInventory({ wheats: 0, eggs: 0, milk: 0 })
+            setMoney(game.money)
         }
     }
 }
 
-export {clickAnimal, clickProduct, clickPlant, onDragStart, onDrag, onDragEnd}
+
+export {clickAnimal, clickProduct, clickPlant, clickOnSellButton}

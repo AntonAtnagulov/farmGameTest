@@ -1,19 +1,21 @@
 import React, { useRef, useEffect } from 'react';
 import style from './canvas.module.css';
 import * as THREE from 'three';
+import ThreeMeshUI from 'three-mesh-ui'
 import Game from '../../JavaScript/Classes/Game';
 import { useState } from 'react';
 import keyframes from '../../JavaScript/Functions/keyframes';
 import { DragControls } from 'three/examples/jsm/controls/DragControls';
 import ItemIcon from '../ItemIcon/ItemIcon';
 import SellModal from '../SellModal/SellModal';
-import {clickAnimal, clickProduct, clickPlant} from '../../JavaScript/Functions/functions'
+import {clickAnimal, clickProduct, clickPlant, clickOnSellButton} from '../../JavaScript/Functions/functions'
 
 export default function Canvas() {
     const mountRef = useRef(null);
     const game = new Game();
     const [inventory, setInventory] = useState({ wheats: 0, eggs: 0, milk: 0 });
     const [showModal, setShowModal] = useState(false);
+    const [money, setMoney] = useState(0)
     const mouse = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
     let dragStartTile;
@@ -100,14 +102,15 @@ export default function Canvas() {
             const modelsGroup = game.scene.children[5];
             raycaster.setFromCamera(mouse, game.camera);
             let intersects = raycaster.intersectObject(modelsGroup, true);
-
+            
             if (intersects) {
-                const targetGroupName = intersects[0].object.parent.name;
+                const targetGroupName = intersects[0]?.object.parent.name;
                 clickAnimal(game, targetGroupName, 'cow', setInventory, showModal);
                 clickAnimal(game, targetGroupName, 'chicken', setInventory, showModal);
                 clickProduct(game, targetGroupName, 'milk', intersects, setInventory);
                 clickProduct(game, targetGroupName, 'eggs', intersects, setInventory);
                 clickPlant(game, targetGroupName, 'wheat', modelsGroup, setInventory)
+                clickOnSellButton(game, intersects, setInventory, setMoney)
             }
         }
 
@@ -138,6 +141,7 @@ export default function Canvas() {
         function animate() {
             requestAnimationFrame(animate);
             render();
+            ThreeMeshUI.update();
         }
         
         let clock = new THREE.Clock();
@@ -149,7 +153,6 @@ export default function Canvas() {
         function render() {
             renderer.render(game.scene, game.camera);
             const delta = clock.getDelta();
-            
             if (mixers.length) {
                 for (let i = 0; i < mixers.length; i++) {
                     mixers[i].mixer.update(delta);
@@ -170,6 +173,9 @@ export default function Canvas() {
                 <ItemIcon showModalHandler={showModalHandler} inventory={inventory.wheats} imgUrl={'./wheat.png'} />
                 <ItemIcon showModalHandler={showModalHandler} inventory={inventory.eggs} imgUrl={'./egg.png'} /> 
                 <ItemIcon showModalHandler={showModalHandler} inventory={inventory.milk} imgUrl={'./milk.png'} />
+                <div>
+                    <h3 className={style.money}>$: {money}</h3>
+                </div>
             </div>
             {showModal && <SellModal inventory={inventory} setShowModal={setShowModal}/>}
         </div>

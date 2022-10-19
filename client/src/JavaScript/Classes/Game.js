@@ -8,6 +8,7 @@ import Chicken from './Chicken';
 import Cow from './Cow'
 import randomInteger from '../Functions/randomInteger';
 import { v4 as uuidv4 } from 'uuid';
+import buttonSell from '../Models/ButtonSell';
 const hungryMaterial = new THREE.MeshPhongMaterial({ color: 0xB0B0EE });
 const wellFedMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
 
@@ -25,6 +26,7 @@ export default class Game {
         this.models = new THREE.Group();
         this.score = 0;
         this.inventory = { wheats: 0, eggs: 0, milk: 0 };
+        this.money = 0
     }
 
     getRandomPosition(){
@@ -75,7 +77,7 @@ export default class Game {
         cow.model.position.z += 15
         this.models.add(cow.model)
         cowCheckedPos.empty = false
-        
+
         this.scene.add(
             this.hemiLight,
             this.ground.mesh,
@@ -84,6 +86,9 @@ export default class Game {
             this.backLight,
             this.models,
         );
+
+        const container = new buttonSell()
+           this.scene.children[5].add( container );    
     }
 
     addWheat() {

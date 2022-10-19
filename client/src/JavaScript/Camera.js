@@ -9,7 +9,7 @@ export default function Camera() {
   
     const distance = 250
     const initialCameraPositionY = -100
-    const initialCameraPositionX = 500
+    const initialCameraPositionX = 480
     camera.position.y = initialCameraPositionY;
     camera.position.x = initialCameraPositionX;
     camera.position.z = distance;

@@ -8,9 +8,9 @@ export default function ItemIcon({inventory, imgUrl, showModalHandler}) {
             <div className={style.budgeCount}>
                 <span className={style.budgeText}>{inventory}</span>
             </div>
-            <div className={style.budgeSell}>
+            {/* <div className={style.budgeSell}>
                 <span onClick={showModalHandler} className={style.budgeText}>sell</span>
-            </div>
+            </div> */}
         </div>
     );
 }
