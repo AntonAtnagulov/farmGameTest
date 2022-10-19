@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://antonatnagulov.github.io/farmGameTest/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -32,9 +33,9 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "last 10 chrome version",
+      "last 10 firefox version",
+      "last 5 safari version"
     ],
     "development": [
       "last 1 chrome version",
